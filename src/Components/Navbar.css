@@ -1,6 +1,7 @@
 .navbar {
     display: flex;
     position: absolute;
+    justify-content: space-around;
     top: 0;
     left: 0;
     width: 100vw;
@@ -8,9 +9,31 @@
     align-items: center;
 }
 
+ .headingLink {
+    color: white;
+    padding: 2rem 1rem;
+    font-size: 2rem;
+ }
+
 .navbar > div {
-    margin-left: auto;
+    /* margin-left: auto; */
     margin-right: 2rem;
+}
+
+.cartIcon {
+    transform: scale(3);
+    font-size: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    /* position: absolute; */
+}
+.cartIcon > p {
+    color: red;
+    position: absolute;
+    right: 0.1rem;
+    font-size: .5rem;
+    top: -.6rem;
 }
 
 .navbar > div > button {

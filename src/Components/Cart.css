@@ -1,10 +1,26 @@
 .cartHolder > div  {
     display: flex;
+    justify-content: space-between;
+    
+    
 }
 
 .cartHolder {
+    margin: 2rem;
     margin-top: 10rem;
+    
+}
 
+.cartProductCard {
+    margin: 2rem;
+    background-color: black;
+    padding: 3rem 4rem;
+    width: 30vw;
+}
+
+.cartProductCard img {
+    height: 10rem;
+    width: 10rem;
 }
 
 .cartHolder > div > div {

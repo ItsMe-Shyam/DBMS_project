@@ -1,138 +1,185 @@
-import React, { Fragment, useState } from "react";
-import './ProductTitle.css';
-const products = [
-    { 
-      id: 1, 
-      name: "Product A", 
-      price: 50, 
-      image: "https://images.pexels.com/photos/1108094/pexels-photo-1108094.jpeg", 
-      description: "A high-quality product for your daily needs." 
+import React, { Fragment, useEffect, useState } from "react";
+import './ProductTitle.css'; 
+
+const ProductTile = ({ cartProducts, setCartProducts, setCartCount }) => {
+  const [category, setCategory] = useState("all");
+  const [quantities, setQuantities] = useState({}); // To manage quantities for each product
+
+  const products = [
+    {
+      id: 1,
+      name: "Burger",
+      price: 5.99,
+      description: "A delicious burger with crispy fries and a refreshing soda to complement your meal.",
+      img: "https://static.vecteezy.com/system/resources/thumbnails/049/423/635/small_2x/a-hamburger-and-fries-on-a-plate-with-a-glass-of-soda-png.png",
+      category: "food",
     },
-    { 
-      id: 2, 
-      name: "Product B", 
-      price: 75, 
-      image: "https://images.pexels.com/photos/4302047/pexels-photo-4302047.jpeg", 
-      description: "Stylish and durable, perfect for all occasions." 
+    {
+      id: 2,
+      name: "Rice",
+      price: 2.99,
+      description: "Premium quality rice perfect for cooking a variety of dishes from fried rice to biryani.",
+      img: "https://cdn.dotpe.in/longtail/item_thumbnails/5739802/2JJJi6MZ.webp",
+      category: "food",
     },
-    { 
-      id: 3, 
-      name: "Product C", 
-      price: 100, 
-      image: "https://images.pexels.com/photos/1893609/pexels-photo-1893609.jpeg", 
-      description: "Premium quality that ensures long-lasting use." 
+    {
+      id: 3,
+      name: "Pizza",
+      price: 9.99,
+      description: "Hot and cheesy pizza with a crispy crust, topped with your favorite ingredients.",
+      img: "https://cdn.uengage.io/uploads/5/image-191979-1715686806.png",
+      category: "food",
     },
-    { 
-      id: 4, 
-      name: "Product D", 
-      price: 50, 
-      image: "https://images.pexels.com/photos/3139053/pexels-photo-3139053.jpeg", 
-      description: "A high-quality product for your daily needs." 
+    {
+      id: 4,
+      name: "Dairy Milk Chocolate",
+      price: 3.49,
+      description: "Smooth and creamy Dairy Milk chocolate, a perfect treat for any chocolate lover.",
+      img: "https://flowercakengifts.com/product-images/1580986613-2-dairy-milk-silk-chocolate.jpg",
+      category: "food",
     },
-    { 
-      id: 5, 
-      name: "Product E", 
-      price: 75, 
-      image: "https://images.pexels.com/photos/1796673/pexels-photo-1796673.jpeg", 
-      description: "Stylish and durable, perfect for all occasions." 
+    {
+      id: 5,
+      name: "Onion",
+      price: 1.49,
+      description: "Fresh and flavorful onions, a perfect addition to salads, curries, and more.",
+      img: "https://cdn.dotpe.in/longtail/item_thumbnails/7259612/BSGPmIaw.webp",
+      category: "food",
     },
-    { 
-      id: 6, 
-      name: "Product F", 
-      price: 100, 
-      image: "https://images.pexels.com/photos/2760249/pexels-photo-2760249.jpeg", 
-      description: "Premium quality that ensures long-lasting use." 
+    {
+      id: 6,
+      name: "Orange Jelly Modak",
+      price: 4.99,
+      description: "Sweet and tangy orange jelly modak, a delightful treat to enjoy with family and friends.",
+      img: "https://cdn.dotpe.in/longtail/item_thumbnails/1105554/OGIpZzzP.jpeg",
+      category: "food",
     },
-    { 
-      id: 7, 
-      name: "Product G", 
-      price: 50, 
-      image: "https://images.pexels.com/photos/3271009/pexels-photo-3271009.jpeg", 
-      description: "A high-quality product for your daily needs." 
+    {
+      id: 7,
+      name: "DSLR HD Camera",
+      price: 499.99,
+      description: "Capture high-quality photos and videos with this professional DSLR HD camera.",
+      img: "https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg?cs=srgb&dl=pexels-pixabay-51383.jpg&fm=jpg",
+      category: "electronics",
     },
-    { 
-      id: 8, 
-      name: "Product H", 
-      price: 75, 
-      image: "https://images.pexels.com/photos/1174113/pexels-photo-1174113.jpeg", 
-      description: "Stylish and durable, perfect for all occasions." 
+    {
+      id: 8,
+      name: "Inverter",
+      price: 120.00,
+      description: "A reliable inverter to power your home during power outages, providing smooth energy backup.",
+      img: "https://s.alicdn.com/@sc04/kf/HTB1X3vSKVXXXXb8XVXXq6xXFXXXn.jpg_720x720q50.jpg",
+      category: "electronics",
     },
-    { 
-      id: 9, 
-      name: "Product I", 
-      price: 100, 
-      image: "https://images.pexels.com/photos/256467/pexels-photo-256467.jpeg", 
-      description: "Premium quality that ensures long-lasting use." 
+    {
+      id: 9,
+      name: "Refrigerator",
+      price: 349.99,
+      description: "Energy-efficient refrigerator with spacious compartments to store all your groceries.",
+      img: "https://cdn.dotpe.in/longtail/item_thumbnails/8031043/JQR9R0Vv.webp",
+      category: "electronics",
+    },
+    {
+      id: 10,
+      name: "Speaker",
+      price: 79.99,
+      description: "High-quality speaker with rich sound and clear bass, perfect for any music lover.",
+      img: "https://abhinavelectronics.com/wp-content/uploads/2023/12/91nM8F7aWvL._SX466_.jpg",
+      category: "electronics",
+    },
+    {
+      id: 11,
+      name: "Wireless Bluetooth",
+      price: 29.99,
+      description: "Convenient wireless Bluetooth device to stream music and answer calls hands-free.",
+      img: "https://abhinavelectronics.com/wp-content/uploads/2023/12/31Mj80flnlL.jpg",
+      category: "electronics",
+    },
+    {
+      id: 12,
+      name: "AC",
+      price: 299.99,
+      description: "Cool your home efficiently with this high-performance air conditioner for year-round comfort.",
+      img: "https://abhinavelectronics.com/wp-content/uploads/2023/12/download-31.jpeg",
+      category: "electronics",
+    },
+    {
+      id: 13,
+      name: "Wireless Mouse",
+      price: 19.99,
+      description: "Sleek and ergonomic wireless mouse, designed for smooth navigation and comfort.",
+      img: "https://prod.images.sellpy.net/fit-in/400x4096/photoRobot-manual-12-k-6/bnSgEUswjc-198a-single.jpg",
+      category: "electronics",
     }
+    // ... other products
   ];
 
-  const ProductTile = () => {
-    // Initialize the cart state by reading from localStorage
-    const [cart, setCart] = useState(() => {
-      const savedCart = localStorage.getItem("cart");
-      return savedCart ? JSON.parse(savedCart) : [];
+  // Function to add a product to the cart with quantity
+  const addToCart = (productId, quantity) => {
+    const existingProduct = cartProducts.find((product) => product.id === productId);
+
+    if (existingProduct) {
+      // Update quantity if product already exists in the cart
+      setCartProducts((prevCart) =>
+        prevCart.map((product) =>
+          product.id === productId
+      ? { ...product, quantity: product.quantity + quantity }
+      : product
+    )
+  );
+} else {
+  // Add new product with quantity
+  const product = products.find((product) => product.id === productId);
+  if (product) {
+    setCartProducts((prevCart) => [
+      ...prevCart,
+      { ...product, quantity },
+    ]);
+  }
+}
+  setCartCount(cartProducts.length);
+
+  };  
+
+  const filteredProducts =
+    category === "all"
+      ? products
+      : products.filter((product) => product.category === category);
+
+  const handleQuantityChange = (productId, change) => {
+    setQuantities((prevQuantities) => {
+      const newQuantity = Math.max(1, (prevQuantities[productId] || 1) + change); // Ensure quantity doesn't go below 1
+      return { ...prevQuantities, [productId]: newQuantity };
     });
-  
-    // Function to save cart state to localStorage
-    const saveCartToLocalStorage = (updatedCart) => {
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    };
-  
-    // Function to update cart when the "Add to Cart" button is clicked
-    const addToCart = (productId) => {
-      setCart((prevCart) => {
-        const existingItem = prevCart.find((item) => item.id === productId);
-        let updatedCart;
-  
-        if (existingItem) {
-          // Increment the quantity if the product is already in the cart
-          updatedCart = prevCart.map((item) =>
-            item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-          );
-        } else {
-          // Add new product to the cart
-          updatedCart = [...prevCart, { id: productId, quantity: 1 }];
-        }
-  
-        // Save the updated cart to localStorage
-        saveCartToLocalStorage(updatedCart);
-  
-        return updatedCart;
-      });
-    };
-  
-    // Function to update the quantity directly in the UI
-    const updateQuantity = (productId, increment) => {
-      setCart((prevCart) => {
-        const updatedCart = prevCart
-          .map((item) =>
-            item.id === productId
-              ? { ...item, quantity: Math.max(0, item.quantity + (increment ? 1 : -1)) }
-              : item
-          )
-          .filter((item) => item.quantity > 0); // Remove items with 0 quantity
-  
-        // Save the updated cart to localStorage
-        saveCartToLocalStorage(updatedCart);
-  
-        return updatedCart;
-      });
-    };
-  
-    // Function to get the quantity of a specific product from the cart
-    const getQuantity = (productId) => {
-      const item = cart.find((item) => item.id === productId);
-      return item ? item.quantity : 1;
-    };
-  
-    return (
-      <Fragment>
-        <h1>Products</h1>
-        <div className="products-container">
-          {products.map((product) => (
-            <div key={product.id} className="border rounded-lg p-4 shadow-lg w-60 bg-white">
+  };
+
+  return (
+    <Fragment>
+      <h1>Products</h1>
+      <div className="products-container">
+        {/* Dropdown Menu for Filtering */}
+        <section className="mb-4 categoryContainer">
+          <label htmlFor="category" className="mr-2">
+            Filter by Category:
+          </label>
+          <select
+            id="category"
+            onChange={(e) => setCategory(e.target.value)}
+            className="border rounded px-2 py-1"
+          >
+            <option value="all">All</option>
+            <option value="food">Food</option>
+            <option value="electronics">Electronics</option>
+          </select>
+        </section>
+        {filteredProducts.map((product) => {
+          const quantity = quantities[product.id] || 1; // Get quantity for the current product, default to 1
+          return (
+            <div
+              key={product.id}
+              className="border rounded-lg p-4 shadow-lg w-30 bg-white"
+            >
               <img
-                src={product.image}
+                src={product.img}
                 alt={product.name}
                 className="rounded-lg w-full h-40 object-cover mb-4"
               />
@@ -141,31 +188,31 @@ const products = [
               <p className="text-gray-600">Description: {product.description}</p>
               <div className="flex items-center justify-center gap-4 mt-4">
                 <button
-                  onClick={() => updateQuantity(product.id, false)}
+                  onClick={() => handleQuantityChange(product.id, -1)} // Decrease quantity
                   className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                  disabled={getQuantity(product.id) === 0}
                 >
                   -
                 </button>
-                <span className="text-lg font-semibold">{getQuantity(product.id)}</span>
+                <span className="text-lg font-semibold">{quantity}</span>
                 <button
-                  onClick={() => updateQuantity(product.id, true)}
+                  onClick={() => handleQuantityChange(product.id, 1)} // Increase quantity
                   className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                 >
                   +
                 </button>
               </div>
               <button
-                onClick={() => addToCart(product.id)}
+                onClick={() => addToCart(product.id, quantity)} // Pass product ID and quantity
                 className="cartButton w-full mt-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
                 Add to Cart
               </button>
             </div>
-          ))}
-        </div>
-      </Fragment>
-    );
-  };
-  
+          );
+        })}
+      </div>
+    </Fragment>
+  );
+};
+
 export default ProductTile;

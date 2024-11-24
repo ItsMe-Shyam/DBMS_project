@@ -1,8 +1,10 @@
 import React from "react";
 import './Navbar.css';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = () => {
+const Navbar = ({cartCount}) => {
   const navigate = useNavigate(); // Hook to enable navigation
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
@@ -10,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className="navbar flex items-center justify-between bg-blue-500 p-4 shadow-md">
       {/* Left Side - Heading */}
-      <h1 className="text-white text-2xl font-bold">Welcome to DU Store</h1>
+      <Link to="/" className=" headingLink text-white text-2xl font-bold">Welcome to DU Store</Link>
       
       {/* Right Side - Buttons */}
      {
@@ -30,9 +32,14 @@ const Navbar = () => {
         >
           Sign Up
         </button>
+
       </div>
       )
-     }
+    }
+    <Link  to="/cart" className="cartIcon">
+      <p>{cartCount}</p>
+     <FontAwesomeIcon icon={faShoppingCart} className="text-2xl" />
+    </Link>
     </nav>
   );
 };
